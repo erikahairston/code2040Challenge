@@ -32,11 +32,8 @@ body = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'github': 'http:
 
 response = requests.post(endpoint3, data=body, headers = headers)
 # Make the POST request here, passing body as the data:
-
-diction = json.loads(response.content)
-
 print(response.status_code)
-pprint(diction)
+
 
 ##Step 2_5 post#####
 # reversedS = response.content[::-1]
@@ -53,6 +50,30 @@ pprint(diction)
 
 
 ##Step 3 post#####
+diction = json.loads(response.content)
+needle = diction.values()[1]
+haystack = diction.values()[0]
+
+
+print("dictionary")
+pprint(diction)
+
+print("neeedle")
+pprint(needle)
+
+print("haystack")
+pprint(haystack)
+
+index = 0
+
+for strg in haystack:
+	if strg == needle:
+		print("found index:")
+		print(index)
+		exit()
+	else:
+		index = index +1
+print("needle not found")
 
 
 
