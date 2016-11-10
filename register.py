@@ -14,4 +14,4 @@ response = requests.post("http://challenge.code2040.org/api/register", data=body
 # Make the POST request here, passing body as the data:
 
 print(response.status_code)
-print(response)
+print(response.content)
