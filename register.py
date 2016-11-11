@@ -8,6 +8,10 @@ import requests
 import json
 from pprint import pprint
 import yaml
+import datetime
+
+
+
 
 
 ######Receiving Enpoints#######
@@ -45,6 +49,9 @@ def findPrefix(prx, collection, array):
 			array.append(strg)
 			print(strg)
  	return array
+#####Step 5#######
+endpoint5 = "http://challenge.code2040.org/api/dating"
+
 
 
 ############################################################
@@ -55,7 +62,7 @@ def findPrefix(prx, collection, array):
 headers = {'Content-Type' : 'application/json'}
 body = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'github': 'http://github.com/erikahairston/code2040Challenge'})
 
-response = requests.post(endpoint4, data=body, headers = headers)
+response = requests.post(endpoint5, data=body, headers = headers)
 # Make the POST request here, passing body as the data:
 print(response.status_code)
 print(response.content)
@@ -101,29 +108,56 @@ print(response.content)
 # print(response3.content)
 
 #####Step 4 post######
-diction = yaml.safe_load(response.content)
-prefix = diction.values()[0]
-collect = diction.values()[1]
-print("dictionary")
-pprint(diction)
+# diction = yaml.safe_load(response.content)
+# prefix = diction.values()[0]
+# collect = diction.values()[1]
+# print("dictionary")
+# pprint(diction)
 
-print("prefix")
-pprint(prefix)
+# print("prefix")
+# pprint(prefix)
 
-print("colelction")
-pprint(collect)
+# print("colelction")
+# pprint(collect)
 
 
-with_prx = []
-with_prx = findPrefix(prefix, collect, with_prx)
+# with_prx = []
+# with_prx = findPrefix(prefix, collect, with_prx)
 
-print("final with prefix")
-print(with_prx)
-endpoint4 = "http://challenge.code2040.org/api/prefix/validate"
-body4 = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'array': with_prx})
-response4 = requests.post(endpoint4, data=body4, headers = headers)
-print(response4.status_code)
-print(response4.content)
+# print("final with prefix")
+# print(with_prx)
+# endpoint4 = "http://challenge.code2040.org/api/prefix/validate"
+# body4 = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'array': with_prx})
+# response4 = requests.post(endpoint4, data=body4, headers = headers)
+# print(response4.status_code)
+# print(response4.content)
+
+
+#####Step 5 post######
+diction = json.loads(response.content)
+timestamp = datetime.datetime.strptime(diction.values()[0], "%Y-%m-%dT%H:%M:%SZ")
+interval = diction.values()[1]
+
+print("timestamp")
+print(timestamp)
+
+print("interval")
+print(interval)
+#T16:03:35Z
+
+b = timestamp + datetime.timedelta(seconds=interval)
+
+print b.isoformat()
+
+b = b.isoformat() + 'Z'
+
+endpoint5_1 = "http://challenge.code2040.org/api/dating/validate"
+body5 = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'datestamp': b})
+response5 = requests.post(endpoint5_1, data=body5, headers = headers)
+print(response5.status_code)
+print(response5.content)
+
+
 
 
 
