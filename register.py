@@ -7,6 +7,7 @@ import re
 import requests
 import json
 from pprint import pprint
+import yaml
 
 
 ######Receiving Enpoints#######
@@ -37,14 +38,12 @@ def findInx(needle, haystack):
 #####Step 4#######
 endpoint4 = "http://challenge.code2040.org/api/prefix"
 def findPrefix(prx, collection, array):
-	index = 0
 	for strg in collection:
 		if strg.startswith(prx):
 			print("found index:")
-			print(strg)
-			array.append(strg)
 		else:
- 			index = index +1
+			array.append(strg)
+			print(strg)
  	return array
 
 
@@ -102,7 +101,7 @@ print(response.content)
 # print(response3.content)
 
 #####Step 4 post######
-diction = json.loads(response.content)
+diction = yaml.safe_load(response.content)
 prefix = diction.values()[0]
 collect = diction.values()[1]
 print("dictionary")
@@ -120,3 +119,12 @@ with_prx = findPrefix(prefix, collect, with_prx)
 
 print("final with prefix")
 print(with_prx)
+endpoint4 = "http://challenge.code2040.org/api/prefix/validate"
+body4 = json.dumps({'token': '60003627513e0d6ab250539770e1d9ed', 'array': with_prx})
+response4 = requests.post(endpoint4, data=body4, headers = headers)
+print(response4.status_code)
+print(response4.content)
+
+
+
+
